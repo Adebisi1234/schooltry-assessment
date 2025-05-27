@@ -34,6 +34,15 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    role: 'teacher' | 'student' | 'admin';
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+import { Page } from '@inertiajs/core';
+
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        $page: Page;
+    }
+}
