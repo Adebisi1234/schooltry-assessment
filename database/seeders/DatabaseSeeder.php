@@ -13,11 +13,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Check if test user already exists
+        $testUser = User::where('email', 'test@example.com')->first();
+        
+        if (!$testUser) {
+            // Create test user if doesn't exist
+            User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+                'password' => bcrypt('password'), 
+                'role' => 'teacher',
+            ]);
+        }
+        
+        // Seed documents
+        $this->call(DocumentSeeder::class);
     }
 }

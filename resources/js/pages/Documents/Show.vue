@@ -143,8 +143,11 @@ console.log({ document: props.document });
                                 </div>
 
                                 <!-- Text file viewer (simplified) -->
-                                <div v-else-if="document.file_type === 'txt'" class="rounded border bg-white p-4">
-                                    <p class="mt-4 text-sm text-gray-500">
+                                <div
+                                    v-else-if="document.file_type === 'txt' || document.file_type === 'text/plain'"
+                                    class="rounded border bg-white p-4"
+                                >
+                                    <p class="mt-4 text-sm whitespace-pre-wrap text-gray-500">
                                         {{ document.content }}
                                     </p>
                                 </div>

@@ -72,9 +72,12 @@ class DocumentController extends Controller
         if ($fileType === 'txt') {
             $content = file_get_contents($file->getRealPath());
         } elseif ($fileType === 'pdf') {
-            // In a real app, you'd use a library like pdftotext or a service like AWS Textract
-            // For simplicity, we'll just note that PDF content would be extracted here
+            // I'll use a library like pdftotext or a service like AWS Textract in a real application
+            // For simplicity, I'll just note that PDF content would be extracted here
             $content = "PDF content would be extracted here using a PDF parsing library";
+        } elseif ($fileType === 'doc' || $fileType === 'docx') {
+
+            $content = "Word document content would be extracted here using a Word parsing library";
         }
 
         $document = Document::create([
@@ -96,7 +99,7 @@ class DocumentController extends Controller
      */
     public function show(Document $document)
     {
-        // Load the user relationship to check permissions
+        // Load the user relationship
         
         $document->load('user');
         return inertia('Documents/Show', [

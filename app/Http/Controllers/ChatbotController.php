@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Http;
 
 class ChatbotController extends Controller
 {
-    /**
-     * Handle the user's question about a document.
-     */
+
     public function askQuestion(Request $request, Document $document)
     {
         // Validate the request
@@ -19,31 +17,26 @@ class ChatbotController extends Controller
             'question' => 'required|string|max:1000',
         ]);
 
-        // Check if the user is a student
         if (!Auth::user()->isStudent()) {
             return response()->json([
                 'message' => 'Only students can use the AI chatbot.'
             ], 403);
         }
 
-        // In a real application, you would call an AI API service like OpenAI
-        // For this example, we'll simulate a response
-        
-        // Fetch document content
         $documentContent = $document->content ?? 'No content available for this document.';
         
-        // In a real implementation, you would send the question and document content to the AI API
-        // For example, using OpenAI's API:
-        /*
+
+
+        
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
             'Content-Type' => 'application/json',
         ])->post('https://api.openai.com/v1/chat/completions', [
-            'model' => 'gpt-3.5-turbo',
+            'model' => 'gpt-4o-mini',
             'messages' => [
                 [
                     'role' => 'system',
-                    'content' => 'You are a helpful AI assistant for students. Answer questions based on the document provided.'
+                    'content' => 'You are a helpful AI assistant for students. Answer questions based on the document provided only.'
                 ],
                 [
                     'role' => 'user',
@@ -54,20 +47,17 @@ class ChatbotController extends Controller
         ]);
         
         $aiAnswer = $response->json()['choices'][0]['message']['content'] ?? 'Sorry, I could not process your question.';
-        */
+        
         
         // Simulate AI response for demonstration
-        $aiAnswer = $this->simulateAIResponse($request->question, $documentContent);
+        // $aiAnswer = $this->simulateAIResponse($request->question, $documentContent);
         
         return response()->json([
             'answer' => $aiAnswer,
         ]);
     }
     
-    /**
-     * Simulate an AI response for demonstration purposes.
-     * In a real application, this would be replaced with an actual AI API call.
-     */
+    
     private function simulateAIResponse($question, $documentContent)
     {
         // Simple logic to generate a somewhat relevant response
@@ -108,7 +98,7 @@ class ChatbotController extends Controller
                    "Their collective work has shaped our understanding of these concepts.";
         }
         
-        // Default response
+        
         return "Based on the document, I can provide the following information related to your question: " .
                "The document covers various aspects of this topic, including key concepts, applications, and implications. " .
                "For more specific information, you might want to refine your question or refer to a particular section of the document.";
