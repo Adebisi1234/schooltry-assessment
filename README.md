@@ -102,6 +102,21 @@ php artisan serve
 - `/database/seeders` - Database seeders
 - `/content` - Default content files for document seeding
 
+## AI Features
+
+This platform leverages OpenAI's API to provide intelligent learning experiences:
+
+- **Document-based Chatbot**: Students can ask questions about uploaded documents and receive context-aware answers using GPT-4o-mini
+- **Personalized Learning**: AI analyzes document content to provide tailored responses based on student queries
+- **Content Understanding**: The system extracts and processes text from uploaded documents (TXT, PDF, DOC) to enable AI interactions
+
+### AI Implementation
+
+- OpenAI's API is used with the GPT-4o-mini model
+- The `ChatbotController` handles document content processing and AI interactions
+- Documents uploaded by teachers are parsed and their content is made available to the AI for student interactions
+- Configuration requires a valid OpenAI API key set in the `.env` file as `OPENAI_API_KEY`
+
 ## Testing
 
 ```bash
