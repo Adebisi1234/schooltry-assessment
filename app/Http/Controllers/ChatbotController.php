@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Log;
 
 class ChatbotController extends Controller
 {
@@ -55,11 +56,9 @@ class ChatbotController extends Controller
         // Moderate the document content
         if (!$this->moderateQuestion($request->question)) {
             return response()->json([
-                'message' => 'The document content is inappropriate or flagged for moderation.'
+                'answer' => 'The question is inappropriate or flagged for moderation.'
             ], 403);
         }
-
-
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
@@ -148,6 +147,7 @@ class ChatbotController extends Controller
     private function moderateQuestion($question)
     {
         try {
+
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . env('OPENAI_API_KEY'),
                 'Content-Type' => 'application/json',
@@ -156,11 +156,15 @@ class ChatbotController extends Controller
                         "input" => $question
                     ]);
             $result = $response->json();
+            // Print out the moderation result for debugging
+            logger()->info($response);
+            Log::info("Moderation result: " . json_encode($result));
             if (isset($result['results'][0]['flagged']) && $result['results'][0]['flagged']) {
                 return false; // Content is flagged
             }
 
         } catch (\Throwable $th) {
+            Log::error('' . $th->getMessage());
             return false;
         }
         return true;

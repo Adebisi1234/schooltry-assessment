@@ -97,7 +97,7 @@ const sendMessage = async () => {
             messages.value[loadingIndex] = {
                 id: Date.now().toString(),
                 role: 'assistant',
-                content: 'Sorry, I encountered an error while processing your question. Please try again.',
+                content: `Sorry, I encountered an error while processing your question. Ensure your question doesn't contain malicious words and Please try again.`,
                 timestamp: new Date(),
             };
         }
