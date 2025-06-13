@@ -126,3 +126,11 @@ php artisan test
 # Run JavaScript tests (if applicable)
 npm test
 ```
+
+## TODO
+
+- Convert the Chat feature to a service
+- Optimize call to AI to save cost
+    - Batch multiple request to AI
+    - Cache popular questions
+- Filter Malicious questions asked the AI :check:
